@@ -8,8 +8,8 @@ import (
 )
 
 type UserRepository interface {
-	FindById(id uint) (*models.User, error)
-	FindByEmail(email string) (*models.User, error)
+	GetUserById(id uint) (*models.User, error)
+	GetUserByEmail(email string) (*models.User, error)
 	GetAllUsers() (*[]models.User, error)
 	CreateUser(user *models.User) (*models.User, error)
 	UpdateUser(user *models.User, id uint) (*models.User, error)
@@ -20,7 +20,7 @@ type UserRepositoryImpl struct {
 	DB *gorm.DB
 }
 
-func (r *UserRepositoryImpl) FindById(id uint) (*models.User, error) {
+func (r *UserRepositoryImpl) GetUserById(id uint) (*models.User, error) {
 	var user models.User
 	if err := r.DB.First(&user, id).Error; err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func (r *UserRepositoryImpl) FindById(id uint) (*models.User, error) {
 	return &user, nil
 }
 
-func (r *UserRepositoryImpl) FindByEmail(email string) (*models.User, error) {
+func (r *UserRepositoryImpl) GetUserByEmail(email string) (*models.User, error) {
 	var user models.User
 	if err := r.DB.Where("email = ?", email).First(&user).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {

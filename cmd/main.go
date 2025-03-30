@@ -12,7 +12,7 @@ func main() {
 	app := fiber.New()
 
 	db.Connect()
-	//db.Migrate(db.DB)
+	db.Migrate(db.DB)
 
 	routes.AddRoutes(app, db.DB)
 	log.Fatal(app.Listen(":8080"))

@@ -9,20 +9,20 @@ import (
 )
 
 type UserService struct {
-	Repository repositories.UserRepository
+	UserRepository repositories.UserRepository
 }
 
 func (s *UserService) GetUserById(id uint) (*models.User, error) {
-	return s.Repository.FindById(id)
+	return s.UserRepository.GetUserById(id)
 }
 
 func (s *UserService) GetAllUsers() (*[]models.User, error) {
-	return s.Repository.GetAllUsers()
+	return s.UserRepository.GetAllUsers()
 }
 
 func (s *UserService) CreateUser(user *models.User) (*models.User, error) {
 
-	existEmail, err := s.Repository.FindByEmail(user.Email)
+	existEmail, err := s.UserRepository.GetUserByEmail(user.Email)
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +31,7 @@ func (s *UserService) CreateUser(user *models.User) (*models.User, error) {
 		return nil, fmt.Errorf("email '%s' already exists", user.Email)
 	}
 
-	return s.Repository.CreateUser(user)
+	return s.UserRepository.CreateUser(user)
 }
 
 func (s *UserService) UpdateUser(user *models.User, id uint) (*models.User, error) {
@@ -46,7 +46,7 @@ func (s *UserService) UpdateUser(user *models.User, id uint) (*models.User, erro
 		updateUser.Password = user.Password
 	}
 
-	updatedUser, err := s.Repository.UpdateUser(&updateUser, id)
+	updatedUser, err := s.UserRepository.UpdateUser(&updateUser, id)
 	if err != nil {
 		return nil, err
 	}
@@ -55,5 +55,5 @@ func (s *UserService) UpdateUser(user *models.User, id uint) (*models.User, erro
 }
 
 func (s *UserService) DeleteUser(id uint) error {
-	return s.Repository.DeleteUser(id)
+	return s.UserRepository.DeleteUser(id)
 }

@@ -66,12 +66,12 @@ func (h *UserHandler) UpdateUser(ctx *fiber.Ctx) error {
 		})
 	}
 
-	userCreated, err := h.UserService.UpdateUser(&user, uint(id))
+	userUpdated, err := h.UserService.UpdateUser(&user, uint(id))
 	if err != nil {
 		return ctx.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return ctx.Status(fiber.StatusOK).JSON(userCreated)
+	return ctx.Status(fiber.StatusOK).JSON(userUpdated)
 }
 
 func (h *UserHandler) DeleteUser(ctx *fiber.Ctx) error {
