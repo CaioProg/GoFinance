@@ -17,5 +17,9 @@ func UserRouter(app *fiber.App, db *gorm.DB) {
 	userService := &services.UserService{Repository: userRepository}
 	userHandler := &handlers.UserHandler{UserService: *userService}
 
+	app.Get("/users", userHandler.GetAllUsers)
 	app.Get("/user/:id", userHandler.GetUserById)
+	app.Post("/user", userHandler.CreateUser)
+	app.Patch("/user/:id", userHandler.UpdateUser)
+	app.Delete("/user/:id", userHandler.DeleteUser)
 }
